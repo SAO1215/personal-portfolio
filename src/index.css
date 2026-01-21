@@ -1,70 +1,245 @@
 @import "tailwindcss";
 
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@theme {
+  --color-border: hsl(var(--border));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --color-card: hsl(var(--card));
+
+  /* Floating effect (up and down smoothly) */
+  --animate-float: float 6s ease-in-out infinite;
+  /* Soft pulse animation (stars in the background) */
+  --animate-pulse-subtle: pulse-subtle 4s ease-in-out infinite;
+  /* Fade in animation */
+  --animate-fade-in: fade-in 0.7s ease-out forwards;
+  /* Fade in animation with delays */
+  --animate-fade-in-delay-1: fade-in 0.7s ease-out 0.2s forwards;
+  --animate-fade-in-delay-2: fade-in 0.7s ease-out 0.4s forwards;
+  --animate-fade-in-delay-3: fade-in 0.7s ease-out 0.6s forwards;
+  --animate-fade-in-delay-4: fade-in 0.7s ease-out 0.8s forwards;
+  /* Meteor animation (diagonal fast movement loop) */
+  --animate-meteor: meteor 5s linear infinite;
+
+  /* FLOAT: smooth up and down movement */
+  @keyframes float {
+
+    0%,
+    100% {
+      /* Initial and final position */
+      transform: translateY(0);
+    }
+
+    50% {
+      /* Moves element slightly upward */
+      transform: translateY(-10px);
+    }
+  }
+
+  /* PULSE SUBTLE: soft opacity breathing effect */
+  @keyframes pulse-subtle {
+
+    0%,
+    100% {
+      /* Fully visible */
+      opacity: 1;
+    }
+
+    50% {
+      /* Slightly transparent */
+      opacity: 0.8;
+    }
+  }
+
+  /* FADE IN: appears from bottom while fading */
+  @keyframes fade-in {
+    from {
+      /* Start hidden and lower */
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    to {
+      /* End visible in original position */
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* METEOR: diagonal shooting star effect */
+  @keyframes meteor {
+    0% {
+      /* Start position */
+      transform: rotate(215deg) translateX(0);
+      opacity: 1;
+    }
+
+    70% {
+      /* Still visible during travel */
+      opacity: 1;
+    }
+
+    100% {
+      /* Ends far away and fades out */
+      transform: rotate(215deg) translateX(-500px);
+      opacity: 0;
+    }
+  }
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
+@layer base {
+  /* ========== LIGHT THEME VARIABLES ========== */
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    /* Background & text */
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
+
+    /* Card surfaces */
+    --card: 0 0% 100%;
+
+    /* Primary brand color */
+    --primary: 250 47% 60%;
+    --primary-foreground: 210 40% 98%;
+
+    /* Borders & dividers */
+    --border: 214 32% 91%;
   }
-  a:hover {
-    color: #747bff;
+
+  /* ========== DARK THEME VARIABLES ========== */
+  .dark {
+    /* Background & text */
+    --background: 222 47% 4%;
+    --foreground: 213 31% 91%;
+
+    /* Card surfaces */
+    --card: 222 47% 8%;
+
+    /* Primary brand color */
+    --primary: 250 65% 65%;
+    --primary-foreground: 213 31% 91%;
+    
+    /* Borders & dividers */
+    --border: 217 33% 20%;
   }
-  button {
-    background-color: #f9f9f9;
+
+  /* Applies border color globally */
+  * {
+    @apply border-border;
   }
+
+  /* Enables smooth scrolling */
+  html {
+    @apply scroll-smooth;
+  }
+
+  /* Global body styles */
+  body {
+    /* Background & text with smooth theme transition */
+    @apply bg-background text-foreground transition-colors duration-300;
+    /* Better typography rendering */
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+  /* CONTAINER: centers content and sets responsive max-widths */
+@utility container {
+  /* Centers horizontally */
+  margin-inline: auto;
+  /* Horizontal padding */
+  padding-inline: 2rem;
+  /* Small screens (sm) */
+  @media (width >= 640px) {
+    max-width: 640px;
+  }
+  /* Medium screens (md) */
+  @media (width >= 768px) {
+    max-width: 768px;
+  }
+  /* Large screens (lg) */
+  @media (width >= 1024px) {
+    max-width: 1024px;
+  }
+  /* Extra large screens (xl) */
+  @media (width >= 1280px) {
+    max-width: 1280px;
+  }
+  /* 2XL screens */
+  @media (width >= 1400px) {
+    max-width: 1400px;
+  }
+}
+
+/* TEXT GLOW: glowing text effect */
+@utility text-glow {
+  /* Allows positioning for effects */
+  @apply relative;
+  /* Purple glow */
+  text-shadow: 0 0 10px rgba(167, 139, 250, 0.5);
+}
+
+/* CARD HOVER: subtle scale and shadow on hover */
+@utility card-hover {
+  @apply transition-transform duration-300 
+         hover:scale-[1.02] 
+         hover:shadow-lg;
+}
+
+/* GRADIENT BORDER: fake gradient border effect */
+@utility gradient-border {
+  @apply relative rounded-md;
+  /* Base background */
+  background: linear-gradient(to right, hsl(var(--card)), hsl(var(--card)));
+  /* Keeps gradient only on border */
+  background-clip: padding-box;
+  /* Transparent border for gradient illusion */
+  border: 1px solid transparent;
+}
+
+/* COSMIC BUTTON: animated glowing button */
+@utility cosmic-button {
+  @apply px-6 py-2 
+         rounded-full 
+         bg-primary 
+         text-primary-foreground 
+         font-medium 
+         transition-all duration-300 
+         hover:shadow-[0_0_10px_rgba(139,92,246,0.5)]
+         hover:scale-105 
+         active:scale-95;
+}
+
+/* STAR: glowing small star particle */
+@utility star {
+  @apply absolute 
+         rounded-full 
+         bg-white;
+  /* Soft glow */
+  box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.4);
+}
+
+/* METEOR: shooting star trail */
+@utility meteor {
+  @apply absolute 
+         bg-linear-to-r 
+         from-white 
+         via-white 
+         to-transparent 
+         rounded-full;
+  /* Strong glow for trail */
+  box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.3);
+}
+
+/* Root container for the React app */
+#root {
+  /* Takes full available width */
+  max-width: 100%;
+  /* Centers horizontally */
+  margin: 0 auto;
+  /* Removes default padding */
+  padding: 0;
+  /* Centers text content */
+  text-align: center;
 }
