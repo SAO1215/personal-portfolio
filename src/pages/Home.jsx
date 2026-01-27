@@ -3,6 +3,8 @@ import { StarBackground } from "../component/StarBackground"
 import { Navbar } from "../component/Navbar"
 import { HeroSection } from "../component/HeroSection"
 import { AboutSection } from "../component/AboutSection"
+import { SkillsSection } from "../component/SkillsSection"
+
 
 export const Home = () => {
     return (
@@ -21,6 +23,7 @@ export const Home = () => {
             <main>
                 <HeroSection/>
                 <AboutSection/>
+                <SkillsSection/>
             </main>
 
             {/* Footer */}
