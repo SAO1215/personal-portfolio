@@ -4,6 +4,7 @@ import { Navbar } from "../component/Navbar"
 import { HeroSection } from "../component/HeroSection"
 import { AboutSection } from "../component/AboutSection"
 import { SkillsSection } from "../component/SkillsSection"
+import { ProjectsSection } from "../component/ProjectsSection"
 
 
 export const Home = () => {
@@ -24,6 +25,7 @@ export const Home = () => {
                 <HeroSection/>
                 <AboutSection/>
                 <SkillsSection/>
+                <ProjectsSection/>
             </main>
 
             {/* Footer */}
